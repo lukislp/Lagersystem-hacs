@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="128" cy="128" r="120" fill="#667eea"/>
+  
+  <!-- Warehouse Building -->
+  <g fill="#ffffff">
+    <!-- Main Building -->
+    <rect x="60" y="100" width="136" height="100" rx="4"/>
+    
+    <!-- Roof -->
+    <path d="M 50 100 L 128 60 L 206 100 Z"/>
+    
+    <!-- Door -->
+    <rect x="110" y="140" width="36" height="60" fill="#667eea" rx="2"/>
+    
+    <!-- Windows -->
+    <rect x="70" y="110" width="20" height="20" fill="#667eea" rx="2"/>
+    <rect x="100" y="110" width="20" height="20" fill="#667eea" rx="2"/>
+    <rect x="136" y="110" width="20" height="20" fill="#667eea" rx="2"/>
+    <rect x="166" y="110" width="20" height="20" fill="#667eea" rx="2"/>
+    
+    <!-- Boxes/Packages -->
+    <rect x="70" y="170" width="30" height="25" fill="#4CAF50" rx="2"/>
+ <rect x="156" y="170" width="30" height="25" fill="#FF9800" rx="2"/>
+    
+    <!-- Barcode on left box -->
+    <line x1="75" y1="175" x2="75" y2="190" stroke="#333" stroke-width="1"/>
+    <line x1="78" y1="175" x2="78" y2="190" stroke="#333" stroke-width="2"/>
+  <line x1="81" y1="175" x2="81" y2="190" stroke="#333" stroke-width="1"/>
+    <line x1="84" y1="175" x2="84" y2="190" stroke="#333" stroke-width="2"/>
+    <line x1="87" y1="175" x2="87" y2="190" stroke="#333" stroke-width="1"/>
+    <line x1="90" y1="175" x2="90" y2="190" stroke="#333" stroke-width="2"/>
+    <line x1="93" y1="175" x2="93" y2="190" stroke="#333" stroke-width="1"/>
+  </g>
+  
+  <!-- Home Assistant Connection Icon -->
+  <g transform="translate(180, 40)">
+    <circle cx="0" cy="0" r="24" fill="#41BDF5"/>
+    <path d="M -8 -6 L 0 -12 L 8 -6 L 8 8 L -8 8 Z" fill="#ffffff"/>
+    <circle cx="0" cy="2" r="3" fill="#41BDF5"/>
+  </g>
+</svg>

@@ -1,0 +1,23 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure LagerSystem",
+        "description": "Enter your LagerSystem connection details",
+        "data": {
+          "host": "Host URL (e.g., https://your-domain.com)",
+          "api_key": "API Key",
+          "verify_ssl": "Verify SSL certificate"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to LagerSystem API",
+      "invalid_auth": "Invalid authentication credentials",
+      "unknown": "Unexpected error occurred"
+    },
+    "abort": {
+      "already_configured": "This LagerSystem instance is already configured"
+    }
+  }
+}

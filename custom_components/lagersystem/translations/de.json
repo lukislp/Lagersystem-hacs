@@ -1,0 +1,23 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "LagerSystem konfigurieren",
+        "description": "Verbindungsdaten für LagerSystem eingeben",
+        "data": {
+          "host": "Host-URL (z. B. https://your-domain.com)",
+          "api_key": "API-Key",
+          "verify_ssl": "SSL-Zertifikat prüfen"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung zur LagerSystem-API fehlgeschlagen",
+      "invalid_auth": "Ungültige Anmeldedaten",
+      "unknown": "Unerwarteter Fehler"
+    },
+    "abort": {
+      "already_configured": "Diese LagerSystem-Instanz ist bereits konfiguriert"
+    }
+  }
+}
