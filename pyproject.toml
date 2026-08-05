@@ -1,0 +1,9 @@
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff.lint]
+# Button presses and the connection test intentionally swallow any API failure
+# (log it, keep the entity/flow usable) rather than letting an HTTP client's
+# exception hierarchy crash a button press or fail config flow validation.
+ignore = ["BLE001"]
