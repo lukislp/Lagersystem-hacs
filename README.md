@@ -1,5 +1,10 @@
 # LagerSystem for Home Assistant
 
+[![CI/CD](https://github.com/lukislp/Lagersystem-hacs/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/lukislp/Lagersystem-hacs/actions/workflows/ci-cd.yml)
+[![Release](https://img.shields.io/github/v/release/lukislp/Lagersystem-hacs)](https://github.com/lukislp/Lagersystem-hacs/releases)
+[![License: MIT](https://img.shields.io/github/license/lukislp/Lagersystem-hacs)](LICENSE)
+[![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz/)
+
 Home Assistant custom integration for [LagerSystem](https://github.com/lukislp/Lagersystem), a
 self-hosted warehouse/inventory management app. Polls the LagerSystem REST API and exposes
 inventory levels, stock/expiry alerts, and warehouse statistics as sensors, binary sensors, and
