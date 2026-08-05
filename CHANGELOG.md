@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/lukislp/Lagersystem-hacs/compare/v1.1.1...v1.2.0) (2026-08-05)
+
+
+### Bug Fixes
+
+* stop skipping the hacs brands check now that a local icon exists ([85b0473](https://github.com/lukislp/Lagersystem-hacs/commit/85b04731758a50b66a27f5d1b929eea58e82647c))
+
+
+### Features
+
+* add local brand icon via Home Assistant's brand proxy API ([20fbe3c](https://github.com/lukislp/Lagersystem-hacs/commit/20fbe3cbb1ff7de56a2c68908a2377d20501c218))
+
 ## [1.1.1](https://github.com/lukislp/Lagersystem-hacs/compare/v1.1.0...v1.1.1) (2026-08-05)
 
 
