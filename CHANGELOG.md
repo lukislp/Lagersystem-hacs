@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/lukislp/Lagersystem-hacs/compare/v1.2.0...v1.3.0) (2026-08-05)
+
+
+### Features
+
+* add a self-hosted test coverage badge ([746cd6b](https://github.com/lukislp/Lagersystem-hacs/commit/746cd6b86b6bf1e1b705ca959d6e45d4e427613c))
+
 # [1.2.0](https://github.com/lukislp/Lagersystem-hacs/compare/v1.1.1...v1.2.0) (2026-08-05)
 
 
