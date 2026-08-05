@@ -5,7 +5,7 @@
         "title": "Configure LagerSystem",
         "description": "Enter your LagerSystem connection details",
         "data": {
-          "host": "Host URL (e.g., https://your-domain.com)",
+          "host": "Host URL",
           "api_key": "API Key",
           "verify_ssl": "Verify SSL certificate"
         }

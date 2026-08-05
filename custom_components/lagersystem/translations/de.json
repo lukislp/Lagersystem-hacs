@@ -5,7 +5,7 @@
         "title": "LagerSystem konfigurieren",
         "description": "Verbindungsdaten für LagerSystem eingeben",
         "data": {
-          "host": "Host-URL (z. B. https://your-domain.com)",
+          "host": "Host-URL",
           "api_key": "API-Key",
           "verify_ssl": "SSL-Zertifikat prüfen"
         }
