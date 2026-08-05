@@ -12,7 +12,7 @@ from homeassistant.helpers.update_coordinator import (
 )
 
 from .api import LagerSystemAPI
-from .const import DOMAIN, CONF_HOST, CONF_API_KEY, CONF_VERIFY_SSL, DEFAULT_VERIFY_SSL
+from .const import CONF_API_KEY, CONF_HOST, CONF_VERIFY_SSL, DEFAULT_VERIFY_SSL, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 

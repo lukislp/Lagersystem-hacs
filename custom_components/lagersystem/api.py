@@ -7,21 +7,21 @@ import aiohttp
 import async_timeout
 
 from .const import (
-    ENDPOINT_SENSORS_ALL,
     ENDPOINT_ALERTS_SUMMARY,
     ENDPOINT_ANALYTICS_OVERVIEW,
-    ENDPOINT_DASHBOARD_DATA,
-    ENDPOINT_WAREHOUSES,
-    ENDPOINT_ROOMS,
-    ENDPOINT_STORAGE_LOCATIONS,
-    ENDPOINT_USERS,
-    ENDPOINT_NOTIFICATIONS,
-    ENDPOINT_NOTIFICATIONS_UNREAD,
-    ENDPOINT_NOTIFICATIONS_MARK_ALL_READ,
     ENDPOINT_AUDIT_LOGS,
     ENDPOINT_AUDIT_LOGS_EXPORT,
-    ENDPOINT_MOVEMENTS_RECENT,
     ENDPOINT_BATCHES_EXPIRING,
+    ENDPOINT_DASHBOARD_DATA,
+    ENDPOINT_MOVEMENTS_RECENT,
+    ENDPOINT_NOTIFICATIONS,
+    ENDPOINT_NOTIFICATIONS_MARK_ALL_READ,
+    ENDPOINT_NOTIFICATIONS_UNREAD,
+    ENDPOINT_ROOMS,
+    ENDPOINT_SENSORS_ALL,
+    ENDPOINT_STORAGE_LOCATIONS,
+    ENDPOINT_USERS,
+    ENDPOINT_WAREHOUSES,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -58,16 +58,15 @@ class LagerSystemAPI:
             kwargs["ssl"] = self.verify_ssl
 
         try:
-            async with async_timeout.timeout(TIMEOUT):
-                async with self.session.request(
-                    method, url, headers=headers, **kwargs
-                ) as response:
-                    response.raise_for_status()
-                    return await response.json()
+            async with async_timeout.timeout(TIMEOUT), self.session.request(
+                method, url, headers=headers, **kwargs
+            ) as response:
+                response.raise_for_status()
+                return await response.json()
         except aiohttp.ClientError as err:
             _LOGGER.error("Error connecting to LagerSystem API: %s", err)
             raise
-        except asyncio.TimeoutError as err:
+        except asyncio.TimeoutError:
             _LOGGER.error("Timeout connecting to LagerSystem API")
             raise
 
@@ -180,14 +179,13 @@ class LagerSystemAPI:
     async def test_connection(self) -> bool:
         """Test the connection to the API."""
         try:
-            async with async_timeout.timeout(TIMEOUT):
-                async with self.session.get(
-                    f"{self.host}/api/sensors/all",
-                    headers={"X-API-Key": self.api_key},
-                    ssl=self.verify_ssl,
-                ) as response:
-                    # Accept both 200 (success) and 401 (unauthorized but reachable)
-                    return response.status in [200, 401]
+            async with async_timeout.timeout(TIMEOUT), self.session.get(
+                f"{self.host}/api/sensors/all",
+                headers={"X-API-Key": self.api_key},
+                ssl=self.verify_ssl,
+            ) as response:
+                # Accept both 200 (success) and 401 (unauthorized but reachable)
+                return response.status in [200, 401]
         except Exception as err:
             _LOGGER.error("Connection test failed: %s", err)
             return False
