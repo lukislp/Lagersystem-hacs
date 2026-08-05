@@ -4,6 +4,7 @@
 [![Release](https://img.shields.io/github/v/release/lukislp/Lagersystem-hacs)](https://github.com/lukislp/Lagersystem-hacs/releases)
 [![License: MIT](https://img.shields.io/github/license/lukislp/Lagersystem-hacs)](LICENSE)
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz/)
+[![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/lukislp/Lagersystem-hacs/main/.github/badges/coverage.json)](https://github.com/lukislp/Lagersystem-hacs/actions/workflows/ci-cd.yml)
 
 Home Assistant custom integration for [LagerSystem](https://github.com/lukislp/Lagersystem), a
 self-hosted warehouse/inventory management app. Polls the LagerSystem REST API and exposes
