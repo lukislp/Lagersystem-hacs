@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/lukislp/Lagersystem-hacs/compare/v1.3.0...v1.3.1) (2026-09-03)
+
+
+### Bug Fixes
+
+* **ci:** add Dependabot for github-actions, pip ([71b6cd6](https://github.com/lukislp/Lagersystem-hacs/commit/71b6cd6ae4155a40660860c4e932f40e24ee2077))
+
 # [1.3.0](https://github.com/lukislp/Lagersystem-hacs/compare/v1.2.0...v1.3.0) (2026-08-05)
 
 
