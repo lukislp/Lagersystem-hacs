@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/lukislp/Lagersystem-hacs/compare/v1.3.1...v1.3.2) (2026-09-11)
+
+
+### Bug Fixes
+
+* **ci:** push release commits as a deploy key so the default branch can be ruleset-protected ([c5f2871](https://github.com/lukislp/Lagersystem-hacs/commit/c5f28713178becb2d5cff57a38effadfc2886079))
+
 ## [1.3.1](https://github.com/lukislp/Lagersystem-hacs/compare/v1.3.0...v1.3.1) (2026-09-03)
 
 
