@@ -1,6 +1,6 @@
 # LagerSystem for Home Assistant
 
-[![CI/CD](https://github.com/lukislp/Lagersystem-hacs/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/lukislp/Lagersystem-hacs/actions/workflows/ci-cd.yml)
+[![CI/CD](https://github.com/lukislp/Lagersystem-hacs/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/lukislp/Lagersystem-hacs/actions/workflows/ci-cd.yml) [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/lukislp/Lagersystem-hacs/badge)](https://scorecard.dev/viewer/?uri=github.com/lukislp/Lagersystem-hacs) [![CodeQL](https://github.com/lukislp/Lagersystem-hacs/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/lukislp/Lagersystem-hacs/security/code-scanning)
 [![Release](https://img.shields.io/github/v/release/lukislp/Lagersystem-hacs)](https://github.com/lukislp/Lagersystem-hacs/releases)
 [![License: MIT](https://img.shields.io/github/license/lukislp/Lagersystem-hacs)](LICENSE)
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz/)
