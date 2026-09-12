@@ -1,10 +1,13 @@
 {
   "domain": "lagersystem",
   "name": "LagerSystem",
-  "codeowners": ["@lukislp"],
+  "codeowners": [
+    "@lukislp"
+  ],
   "config_flow": true,
   "dependencies": [],
   "documentation": "https://github.com/lukislp/Lagersystem-hacs",
+  "integration_type": "hub",
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/lukislp/Lagersystem-hacs/issues",
   "requirements": [],
