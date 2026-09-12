@@ -1,3 +1,10 @@
+## [1.3.4](https://github.com/lukislp/Lagersystem-hacs/compare/v1.3.3...v1.3.4) (2026-09-12)
+
+
+### Bug Fixes
+
+* run on Home Assistant 2026.9 and test against it on Python 3.14 ([#8](https://github.com/lukislp/Lagersystem-hacs/issues/8)) ([b4fb3a7](https://github.com/lukislp/Lagersystem-hacs/commit/b4fb3a77faced98545ee343f953ae0bf89873339))
+
 ## [1.3.3](https://github.com/lukislp/Lagersystem-hacs/compare/v1.3.2...v1.3.3) (2026-09-11)
 
 
