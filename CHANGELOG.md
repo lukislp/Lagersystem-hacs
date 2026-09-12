@@ -1,3 +1,11 @@
+## [1.3.5](https://github.com/lukislp/Lagersystem-hacs/compare/v1.3.4...v1.3.5) (2026-09-12)
+
+
+### Bug Fixes
+
+* **ci:** bump dependabot/fetch-metadata from 2.5.0 to 3.1.0 ([7c74b15](https://github.com/lukislp/Lagersystem-hacs/commit/7c74b15eb2b7ae8d85521e06422e1efd89763327))
+* **ci:** bump github/codeql-action/upload-sarif from 3.38.0 to 4.38.0 ([52695d2](https://github.com/lukislp/Lagersystem-hacs/commit/52695d20194bc045fc84a209334272b0acda7e3d))
+
 ## [1.3.4](https://github.com/lukislp/Lagersystem-hacs/compare/v1.3.3...v1.3.4) (2026-09-12)
 
 
