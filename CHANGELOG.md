@@ -1,3 +1,10 @@
+## [1.3.6](https://github.com/lukislp/Lagersystem-hacs/compare/v1.3.5...v1.3.6) (2026-09-12)
+
+
+### Bug Fixes
+
+* **entities:** degrade to defaults on any API payload shape instead of raising ([#15](https://github.com/lukislp/Lagersystem-hacs/issues/15)) ([6d33a72](https://github.com/lukislp/Lagersystem-hacs/commit/6d33a725c53cffc66f29175408eed47f5fc2297b))
+
 ## [1.3.5](https://github.com/lukislp/Lagersystem-hacs/compare/v1.3.4...v1.3.5) (2026-09-12)
 
 
