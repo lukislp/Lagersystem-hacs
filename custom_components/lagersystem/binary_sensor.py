@@ -53,13 +53,36 @@ class LagerSystemBinarySensor(CoordinatorEntity, BinarySensorEntity):
         }
 
     def _get_sensor_data(self, entity_id):
-        """Get sensor data by entity ID."""
-        if self.coordinator.data and "success" in self.coordinator.data:
-            data = self.coordinator.data.get("data", [])
-            for sensor in data:
-                if sensor.get("entityId") == entity_id or sensor.get("entity_id") == entity_id:
-                    return sensor
+        """Get sensor data by entity ID.
+
+        Tolerates any payload shape ({"data": null}, a non-list, non-dict entries): a state
+        property that raises takes the entity out of the state machine, so a malformed API
+        response must degrade to "no data" instead (found by fuzz/fuzz_sensors.py)."""
+        data = self.coordinator.data
+        if not isinstance(data, dict) or "success" not in data:
+            return None
+        entries = data.get("data")
+        if not isinstance(entries, list):
+            return None
+        for sensor in entries:
+            if not isinstance(sensor, dict):
+                continue
+            if sensor.get("entityId") == entity_id or sensor.get("entity_id") == entity_id:
+                return sensor
         return None
+
+
+def _as_number(value, default=0.0):
+    """The API's numeric value as a float - anything else degrades to ``default``.
+
+    A comparison such as ``value > 0`` raised TypeError for a string value and took the
+    entity out of the state machine (found by fuzz/fuzz_sensors.py)."""
+    if isinstance(value, bool):
+        return float(value)
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
 
 
 # ===== EXISTING BINARY SENSORS =====
@@ -78,7 +101,7 @@ class LagerSystemLowStockAlert(LagerSystemBinarySensor):
         """Return true if there are low stock items."""
         sensor = self._get_sensor_data("sensor.inventory_low_stock_count")
         if sensor:
-            value = sensor.get("value", 0)
+            value = _as_number(sensor.get("value", 0))
             return value > 0
         return False
 
@@ -103,7 +126,7 @@ class LagerSystemExpiryAlert(LagerSystemBinarySensor):
         """Return true if there are expiring items."""
         sensor = self._get_sensor_data("sensor.inventory_expiry_warnings")
         if sensor:
-            value = sensor.get("value", 0)
+            value = _as_number(sensor.get("value", 0))
             return value > 0
         return False
 
@@ -130,7 +153,7 @@ class LagerSystemStorageCriticalAlert(LagerSystemBinarySensor):
         """Return true if storage utilization is critical (>90%)."""
         sensor = self._get_sensor_data("sensor.inventory_storage_utilization")
         if sensor:
-            value = sensor.get("value", 0)
+            value = _as_number(sensor.get("value", 0))
             state = sensor.get("state", "ok")
             return state == "critical" or value >= 90
         return False
@@ -140,7 +163,8 @@ class LagerSystemStorageCriticalAlert(LagerSystemBinarySensor):
         """Return extra attributes."""
         sensor = self._get_sensor_data("sensor.inventory_storage_utilization")
         if sensor:
-            attrs = sensor.get("attributes", {})
+            attributes = sensor.get("attributes")
+            attrs = dict(attributes) if isinstance(attributes, dict) else {}
             attrs["utilization_percent"] = sensor.get("value", 0)
             return attrs
         return {}
@@ -160,7 +184,7 @@ class LagerSystemHighActivityAlert(LagerSystemBinarySensor):
         """Return true if there are high movements today (>50)."""
         sensor = self._get_sensor_data("sensor.inventory_daily_movements")
         if sensor:
-            value = sensor.get("value", 0)
+            value = _as_number(sensor.get("value", 0))
             return value > 50
         return False
 

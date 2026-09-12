@@ -63,12 +63,22 @@ class LagerSystemSensor(CoordinatorEntity, SensorEntity):
         }
 
     def _get_sensor_data(self, entity_id):
-        """Get sensor data by entity ID."""
-        if self.coordinator.data and "success" in self.coordinator.data:
-            data = self.coordinator.data.get("data", [])
-            for sensor in data:
-                if sensor.get("entityId") == entity_id or sensor.get("entity_id") == entity_id:
-                    return sensor
+        """Get sensor data by entity ID.
+
+        Tolerates any payload shape ({"data": null}, a non-list, non-dict entries): a state
+        property that raises takes the entity out of the state machine, so a malformed API
+        response must degrade to "no data" instead (found by fuzz/fuzz_sensors.py)."""
+        data = self.coordinator.data
+        if not isinstance(data, dict) or "success" not in data:
+            return None
+        entries = data.get("data")
+        if not isinstance(entries, list):
+            return None
+        for sensor in entries:
+            if not isinstance(sensor, dict):
+                continue
+            if sensor.get("entityId") == entity_id or sensor.get("entity_id") == entity_id:
+                return sensor
         return None
 
 
@@ -245,13 +255,8 @@ class LagerSystemTotalWarehousesSensor(LagerSystemSensor):
     @property
     def native_value(self):
         """Return the state."""
-        # Get from dashboard or dedicated endpoint
-        if self.coordinator.data and "data" in self.coordinator.data:
-            # Try to get from warehouses endpoint
-            for sensor in self.coordinator.data.get("data", []):
-                if sensor.get("entityId") == "sensor.total_warehouses":
-                    return sensor.get("value", 0)
-        return 0
+        sensor = self._get_sensor_data("sensor.total_warehouses")
+        return sensor.get("value", 0) if sensor else 0
 
 
 class LagerSystemTotalRoomsSensor(LagerSystemSensor):
@@ -265,10 +270,8 @@ class LagerSystemTotalRoomsSensor(LagerSystemSensor):
     @property
     def native_value(self):
         """Return the state."""
-        for sensor in self.coordinator.data.get("data", []):
-            if sensor.get("entityId") == "sensor.total_rooms":
-                return sensor.get("value", 0)
-        return 0
+        sensor = self._get_sensor_data("sensor.total_rooms")
+        return sensor.get("value", 0) if sensor else 0
 
 
 class LagerSystemTotalStorageLocationsSensor(LagerSystemSensor):
@@ -282,10 +285,8 @@ class LagerSystemTotalStorageLocationsSensor(LagerSystemSensor):
     @property
     def native_value(self):
         """Return the state."""
-        for sensor in self.coordinator.data.get("data", []):
-            if sensor.get("entityId") == "sensor.total_storage_locations":
-                return sensor.get("value", 0)
-        return 0
+        sensor = self._get_sensor_data("sensor.total_storage_locations")
+        return sensor.get("value", 0) if sensor else 0
 
 
 class LagerSystemTotalUsersSensor(LagerSystemSensor):
@@ -299,10 +300,8 @@ class LagerSystemTotalUsersSensor(LagerSystemSensor):
     @property
     def native_value(self):
         """Return the state."""
-        for sensor in self.coordinator.data.get("data", []):
-            if sensor.get("entityId") == "sensor.total_users":
-                return sensor.get("value", 0)
-        return 0
+        sensor = self._get_sensor_data("sensor.total_users")
+        return sensor.get("value", 0) if sensor else 0
 
 
 class LagerSystemUnreadNotificationsSensor(LagerSystemSensor):
@@ -316,10 +315,8 @@ class LagerSystemUnreadNotificationsSensor(LagerSystemSensor):
     @property
     def native_value(self):
         """Return the state."""
-        for sensor in self.coordinator.data.get("data", []):
-            if sensor.get("entityId") == "sensor.unread_notifications":
-                return sensor.get("value", 0)
-        return 0
+        sensor = self._get_sensor_data("sensor.unread_notifications")
+        return sensor.get("value", 0) if sensor else 0
 
 
 class LagerSystemRecentMovementsSensor(LagerSystemSensor):
@@ -333,10 +330,8 @@ class LagerSystemRecentMovementsSensor(LagerSystemSensor):
     @property
     def native_value(self):
         """Return the state."""
-        for sensor in self.coordinator.data.get("data", []):
-            if sensor.get("entityId") == "sensor.recent_movements":
-                return sensor.get("value", 0)
-        return 0
+        sensor = self._get_sensor_data("sensor.recent_movements")
+        return sensor.get("value", 0) if sensor else 0
 
 
 class LagerSystemExpiringBatchesSensor(LagerSystemSensor):
@@ -350,10 +345,8 @@ class LagerSystemExpiringBatchesSensor(LagerSystemSensor):
     @property
     def native_value(self):
         """Return the state."""
-        for sensor in self.coordinator.data.get("data", []):
-            if sensor.get("entityId") == "sensor.expiring_batches":
-                return sensor.get("value", 0)
-        return 0
+        sensor = self._get_sensor_data("sensor.expiring_batches")
+        return sensor.get("value", 0) if sensor else 0
 
 
 class LagerSystemTotalAuditLogsSensor(LagerSystemSensor):
@@ -367,10 +360,8 @@ class LagerSystemTotalAuditLogsSensor(LagerSystemSensor):
     @property
     def native_value(self):
         """Return the state."""
-        for sensor in self.coordinator.data.get("data", []):
-            if sensor.get("entityId") == "sensor.total_audit_logs":
-                return sensor.get("value", 0)
-        return 0
+        sensor = self._get_sensor_data("sensor.total_audit_logs")
+        return sensor.get("value", 0) if sensor else 0
 
 
 class LagerSystemActiveUsersSensor(LagerSystemSensor):
@@ -384,10 +375,8 @@ class LagerSystemActiveUsersSensor(LagerSystemSensor):
     @property
     def native_value(self):
         """Return the state."""
-        for sensor in self.coordinator.data.get("data", []):
-            if sensor.get("entityId") == "sensor.active_users":
-                return sensor.get("value", 0)
-        return 0
+        sensor = self._get_sensor_data("sensor.active_users")
+        return sensor.get("value", 0) if sensor else 0
 
 
 class LagerSystemWarehouseCapacitySensor(LagerSystemSensor):
@@ -402,10 +391,8 @@ class LagerSystemWarehouseCapacitySensor(LagerSystemSensor):
     @property
     def native_value(self):
         """Return the state."""
-        for sensor in self.coordinator.data.get("data", []):
-            if sensor.get("entityId") == "sensor.warehouse_capacity":
-                return sensor.get("value", 0)
-        return 0
+        sensor = self._get_sensor_data("sensor.warehouse_capacity")
+        return sensor.get("value", 0) if sensor else 0
 
 
 class LagerSystemAverageProductValueSensor(LagerSystemSensor):
@@ -421,7 +408,5 @@ class LagerSystemAverageProductValueSensor(LagerSystemSensor):
     @property
     def native_value(self):
         """Return the state."""
-        for sensor in self.coordinator.data.get("data", []):
-            if sensor.get("entityId") == "sensor.average_product_value":
-                return sensor.get("value", 0)
-        return 0
+        sensor = self._get_sensor_data("sensor.average_product_value")
+        return sensor.get("value", 0) if sensor else 0
