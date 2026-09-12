@@ -4,7 +4,6 @@ import logging
 from typing import Any
 
 import aiohttp
-import async_timeout
 
 from .const import (
     ENDPOINT_ALERTS_SUMMARY,
@@ -58,7 +57,7 @@ class LagerSystemAPI:
             kwargs["ssl"] = self.verify_ssl
 
         try:
-            async with async_timeout.timeout(TIMEOUT), self.session.request(
+            async with asyncio.timeout(TIMEOUT), self.session.request(
                 method, url, headers=headers, **kwargs
             ) as response:
                 response.raise_for_status()
@@ -179,7 +178,7 @@ class LagerSystemAPI:
     async def test_connection(self) -> bool:
         """Test the connection to the API."""
         try:
-            async with async_timeout.timeout(TIMEOUT), self.session.get(
+            async with asyncio.timeout(TIMEOUT), self.session.get(
                 f"{self.host}/api/sensors/all",
                 headers={"X-API-Key": self.api_key},
                 ssl=self.verify_ssl,

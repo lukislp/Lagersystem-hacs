@@ -46,24 +46,24 @@ from .conftest import make_sensor_entry, make_sensors_payload, setup_integration
 # ---------------------------------------------------------------------------
 
 SENSOR_CASES: dict[str, tuple[str, object]] = {
-    "sensor.inventory_value": ("sensor.inventory_total_value", 12345.67),
-    "sensor.total_products": ("sensor.inventory_total_products", 250),
-    "sensor.low_stock_products": ("sensor.inventory_low_stock_count", 7),
-    "sensor.expiring_products": ("sensor.inventory_expiry_warnings", 3),
-    "sensor.storage_utilization": ("sensor.inventory_storage_utilization", 82.5),
-    "sensor.movements_today": ("sensor.inventory_daily_movements", 15),
-    "sensor.top_categories": ("sensor.inventory_top_categories", 5),
-    "sensor.total_warehouses": ("sensor.total_warehouses", 4),
-    "sensor.total_rooms": ("sensor.total_rooms", 20),
-    "sensor.total_storage_locations": ("sensor.total_storage_locations", 120),
-    "sensor.total_users": ("sensor.total_users", 9),
-    "sensor.unread_notifications": ("sensor.unread_notifications", 2),
-    "sensor.movements_last_hour": ("sensor.recent_movements", 6),
-    "sensor.expiring_batches": ("sensor.expiring_batches", 8),
-    "sensor.audit_logs_30_days": ("sensor.total_audit_logs", 42),
-    "sensor.active_users": ("sensor.active_users", 6),
-    "sensor.total_warehouse_capacity": ("sensor.warehouse_capacity", 73.2),
-    "sensor.average_product_value": ("sensor.average_product_value", 49.99),
+    "sensor.lagersystem_inventory_value": ("sensor.inventory_total_value", 12345.67),
+    "sensor.lagersystem_total_products": ("sensor.inventory_total_products", 250),
+    "sensor.lagersystem_low_stock_products": ("sensor.inventory_low_stock_count", 7),
+    "sensor.lagersystem_expiring_products": ("sensor.inventory_expiry_warnings", 3),
+    "sensor.lagersystem_storage_utilization": ("sensor.inventory_storage_utilization", 82.5),
+    "sensor.lagersystem_movements_today": ("sensor.inventory_daily_movements", 15),
+    "sensor.lagersystem_top_categories": ("sensor.inventory_top_categories", 5),
+    "sensor.lagersystem_total_warehouses": ("sensor.total_warehouses", 4),
+    "sensor.lagersystem_total_rooms": ("sensor.total_rooms", 20),
+    "sensor.lagersystem_total_storage_locations": ("sensor.total_storage_locations", 120),
+    "sensor.lagersystem_total_users": ("sensor.total_users", 9),
+    "sensor.lagersystem_unread_notifications": ("sensor.unread_notifications", 2),
+    "sensor.lagersystem_movements_last_hour": ("sensor.recent_movements", 6),
+    "sensor.lagersystem_expiring_batches": ("sensor.expiring_batches", 8),
+    "sensor.lagersystem_audit_logs_30_days": ("sensor.total_audit_logs", 42),
+    "sensor.lagersystem_active_users": ("sensor.active_users", 6),
+    "sensor.lagersystem_total_warehouse_capacity": ("sensor.warehouse_capacity", 73.2),
+    "sensor.lagersystem_average_product_value": ("sensor.average_product_value", 49.99),
 }
 
 
@@ -153,7 +153,7 @@ async def test_inventory_value_attributes_pass_through(
     )
     await setup_integration(hass, monkeypatch, mock_config_entry, get_all_sensors=payload)
 
-    state = hass.states.get("sensor.inventory_value")
+    state = hass.states.get("sensor.lagersystem_inventory_value")
     assert state.attributes["currency"] == "EUR"
     assert state.attributes["last_updated"] == "2026-08-05T00:00:00Z"
 
@@ -173,7 +173,7 @@ async def test_top_categories_formats_category_list(
     )
     await setup_integration(hass, monkeypatch, mock_config_entry, get_all_sensors=payload)
 
-    state = hass.states.get("sensor.top_categories")
+    state = hass.states.get("sensor.lagersystem_top_categories")
     assert state.attributes["categories"] == ["Electronics", "Tools", "Consumables"]
     assert state.attributes["category_list"] == "Electronics, Tools, Consumables"
 
@@ -188,7 +188,7 @@ async def test_top_categories_no_categories_key_omits_category_list(
     )
     await setup_integration(hass, monkeypatch, mock_config_entry, get_all_sensors=payload)
 
-    state = hass.states.get("sensor.top_categories")
+    state = hass.states.get("sensor.lagersystem_top_categories")
     assert state.attributes["note"] == "no categories here"
     assert "category_list" not in state.attributes
 
@@ -205,8 +205,8 @@ async def test_monetary_device_class_on_value_sensors(
     declare _attr_device_class = SensorDeviceClass.MONETARY."""
     await setup_integration(hass, monkeypatch, mock_config_entry, get_all_sensors=_build_full_payload())
 
-    inventory_value_state = hass.states.get("sensor.inventory_value")
-    average_value_state = hass.states.get("sensor.average_product_value")
+    inventory_value_state = hass.states.get("sensor.lagersystem_inventory_value")
+    average_value_state = hass.states.get("sensor.lagersystem_average_product_value")
 
     assert inventory_value_state.attributes["device_class"] == SensorDeviceClass.MONETARY
     assert average_value_state.attributes["device_class"] == SensorDeviceClass.MONETARY
@@ -226,12 +226,14 @@ async def test_sensor_device_info_ties_back_to_config_entry(
     await setup_integration(hass, monkeypatch, mock_config_entry, get_all_sensors=_build_full_payload())
 
     device_registry = dr.async_get(hass)
-    device = device_registry.async_get_device(identifiers={(DOMAIN, mock_config_entry.entry_id)})
+    device = device_registry.async_get_device_by_identifier(
+        (DOMAIN, mock_config_entry.entry_id), mock_config_entry.entry_id
+    )
 
     assert device is not None
     assert device.manufacturer == "LagerSystem"
     assert device.model == "Inventory Management"
     assert device.name == "LagerSystem"
 
-    state = hass.states.get("sensor.inventory_value")
+    state = hass.states.get("sensor.lagersystem_inventory_value")
     assert state is not None
