@@ -1,3 +1,10 @@
+## [1.3.7](https://github.com/lukislp/Lagersystem-hacs/compare/v1.3.6...v1.3.7) (2026-09-12)
+
+
+### Bug Fixes
+
+* **ci:** check out the tip of main in the release jobs, as the comment already describes ([#16](https://github.com/lukislp/Lagersystem-hacs/issues/16)) ([5223986](https://github.com/lukislp/Lagersystem-hacs/commit/522398649a1807a422205741b96a1e80d2758128))
+
 ## [1.3.6](https://github.com/lukislp/Lagersystem-hacs/compare/v1.3.5...v1.3.6) (2026-09-12)
 
 
