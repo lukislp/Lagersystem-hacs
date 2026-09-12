@@ -55,31 +55,31 @@ from .conftest import setup_integration
 # ---------------------------------------------------------------------------
 
 BUTTON_API_METHOD: dict[str, str] = {
-    "button.mark_all_notifications_read": "mark_all_notifications_read",
-    "button.clear_old_notifications": "clear_old_notifications",
-    "button.export_audit_logs": "export_audit_logs",
-    "button.clean_old_audit_logs": "clean_old_audit_logs",
-    "button.generate_analytics_report": "generate_analytics_report",
-    "button.refresh_analytics": "refresh_analytics",
+    "button.lagersystem_mark_all_notifications_read": "mark_all_notifications_read",
+    "button.lagersystem_clear_old_notifications": "clear_old_notifications",
+    "button.lagersystem_export_audit_logs": "export_audit_logs",
+    "button.lagersystem_clean_old_audit_logs": "clean_old_audit_logs",
+    "button.lagersystem_generate_analytics_report": "generate_analytics_report",
+    "button.lagersystem_refresh_analytics": "refresh_analytics",
 }
 
-REFRESH_DASHBOARD_ENTITY_ID = "button.refresh_dashboard"
+REFRESH_DASHBOARD_ENTITY_ID = "button.lagersystem_refresh_dashboard"
 
 # Buttons that call coordinator.async_request_refresh() after a successful api call.
 REFRESHING_ENTITY_IDS = sorted(
     {
-        "button.mark_all_notifications_read",
-        "button.clear_old_notifications",
-        "button.clean_old_audit_logs",
-        "button.refresh_analytics",
+        "button.lagersystem_mark_all_notifications_read",
+        "button.lagersystem_clear_old_notifications",
+        "button.lagersystem_clean_old_audit_logs",
+        "button.lagersystem_refresh_analytics",
     }
 )
 
 # Buttons that call an api method but never refresh afterward, even on success.
 NON_REFRESHING_ENTITY_IDS = sorted(
     {
-        "button.export_audit_logs",
-        "button.generate_analytics_report",
+        "button.lagersystem_export_audit_logs",
+        "button.lagersystem_generate_analytics_report",
     }
 )
 

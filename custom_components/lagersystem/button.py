@@ -51,6 +51,10 @@ class LagerSystemButton(CoordinatorEntity, ButtonEntity):
         self._attr_unique_id = f"{entry.entry_id}_{button_type}"
         self._attr_name = name
         self._attr_icon = icon
+        # Entity names are combined with the device name ("LagerSystem Inventory Value",
+        # sensor.lagersystem_inventory_value) - the naming Home Assistant expects for entities
+        # that belong to a device. Existing installs keep their registered entity ids.
+        self._attr_has_entity_name = True
         self._attr_device_info = {
             "identifiers": {(DOMAIN, entry.entry_id)},
             "name": "LagerSystem",
