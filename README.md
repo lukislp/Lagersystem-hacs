@@ -148,7 +148,7 @@ automation:
 
 ## Requirements
 
-- Home Assistant 2024.1 or newer
+- Home Assistant 2026.1 or newer
 - A running LagerSystem instance with API access enabled
 
 ## Known limitations
