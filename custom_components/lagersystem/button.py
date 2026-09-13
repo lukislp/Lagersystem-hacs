@@ -1,4 +1,5 @@
 """Button platform for LagerSystem."""
+
 import logging
 
 from homeassistant.components.button import ButtonEntity
@@ -25,15 +26,12 @@ async def async_setup_entry(
         # Notification Actions
         LagerSystemMarkAllNotificationsReadButton(coordinator, entry, api),
         LagerSystemClearOldNotificationsButton(coordinator, entry, api),
-
         # Audit Actions
         LagerSystemExportAuditLogsButton(coordinator, entry, api),
         LagerSystemCleanOldAuditLogsButton(coordinator, entry, api),
-
         # Analytics Actions
         LagerSystemGenerateAnalyticsReportButton(coordinator, entry, api),
         LagerSystemRefreshAnalyticsButton(coordinator, entry, api),
-
         # Dashboard Actions
         LagerSystemRefreshDashboardButton(coordinator, entry, api),
     ]
@@ -64,6 +62,7 @@ class LagerSystemButton(CoordinatorEntity, ButtonEntity):
 
 
 # ===== NOTIFICATION BUTTONS =====
+
 
 class LagerSystemMarkAllNotificationsReadButton(LagerSystemButton):
     """Button to mark all notifications as read."""
@@ -113,6 +112,7 @@ class LagerSystemClearOldNotificationsButton(LagerSystemButton):
 
 # ===== AUDIT BUTTONS =====
 
+
 class LagerSystemExportAuditLogsButton(LagerSystemButton):
     """Button to export audit logs."""
 
@@ -160,6 +160,7 @@ class LagerSystemCleanOldAuditLogsButton(LagerSystemButton):
 
 # ===== ANALYTICS BUTTONS =====
 
+
 class LagerSystemGenerateAnalyticsReportButton(LagerSystemButton):
     """Button to generate analytics report."""
 
@@ -206,6 +207,7 @@ class LagerSystemRefreshAnalyticsButton(LagerSystemButton):
 
 
 # ===== DASHBOARD BUTTONS =====
+
 
 class LagerSystemRefreshDashboardButton(LagerSystemButton):
     """Button to refresh dashboard data."""

@@ -1,4 +1,5 @@
 """API Client for LagerSystem."""
+
 import asyncio
 import logging
 from typing import Any
@@ -57,9 +58,12 @@ class LagerSystemAPI:
             kwargs["ssl"] = self.verify_ssl
 
         try:
-            async with asyncio.timeout(TIMEOUT), self.session.request(
-                method, url, headers=headers, **kwargs
-            ) as response:
+            async with (
+                asyncio.timeout(TIMEOUT),
+                self.session.request(
+                    method, url, headers=headers, **kwargs
+                ) as response,
+            ):
                 response.raise_for_status()
                 return await response.json()
         except aiohttp.ClientError as err:
@@ -178,11 +182,14 @@ class LagerSystemAPI:
     async def test_connection(self) -> bool:
         """Test the connection to the API."""
         try:
-            async with asyncio.timeout(TIMEOUT), self.session.get(
-                f"{self.host}/api/sensors/all",
-                headers={"X-API-Key": self.api_key},
-                ssl=self.verify_ssl,
-            ) as response:
+            async with (
+                asyncio.timeout(TIMEOUT),
+                self.session.get(
+                    f"{self.host}/api/sensors/all",
+                    headers={"X-API-Key": self.api_key},
+                    ssl=self.verify_ssl,
+                ) as response,
+            ):
                 # Accept both 200 (success) and 401 (unauthorized but reachable)
                 return response.status in [200, 401]
         except Exception as err:

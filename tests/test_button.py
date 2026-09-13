@@ -33,6 +33,7 @@ This suite:
 6. For RefreshDashboard, asserts a refresh happens with no api.* method
    touched at all, and that a failing refresh is swallowed too.
 """
+
 from __future__ import annotations
 
 from unittest.mock import AsyncMock
@@ -86,7 +87,9 @@ NON_REFRESHING_ENTITY_IDS = sorted(
 ALL_BUTTON_ENTITY_IDS = set(BUTTON_API_METHOD) | {REFRESH_DASHBOARD_ENTITY_ID}
 
 
-def _mock_api_method(monkeypatch: pytest.MonkeyPatch, method_name: str, **kwargs) -> AsyncMock:
+def _mock_api_method(
+    monkeypatch: pytest.MonkeyPatch, method_name: str, **kwargs
+) -> AsyncMock:
     """Patch one LagerSystemAPI method (class-level, matching conftest's
     setup_integration pattern) with an AsyncMock and return it."""
     mock = AsyncMock(**kwargs)
@@ -117,7 +120,9 @@ async def _press(hass: HomeAssistant, entity_id: str) -> None:
 
 
 async def test_all_7_button_entities_created(
-    hass: HomeAssistant, mock_config_entry: MockConfigEntry, monkeypatch: pytest.MonkeyPatch
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """async_setup_entry adds exactly the 7 buttons listed in button.py's
     `buttons` list, and HA's slugification of each _attr_name produces the
@@ -215,7 +220,9 @@ async def test_non_refreshing_button_does_not_trigger_refresh_on_success(
     await setup_integration(hass, monkeypatch, mock_config_entry)
     coordinator = hass.data[DOMAIN][mock_config_entry.entry_id]["coordinator"]
     refresh_spy = _spy_on_refresh(monkeypatch, coordinator)
-    api_mock = _mock_api_method(monkeypatch, BUTTON_API_METHOD[entity_id], return_value={})
+    api_mock = _mock_api_method(
+        monkeypatch, BUTTON_API_METHOD[entity_id], return_value={}
+    )
 
     await _press(hass, entity_id)
 

@@ -1,4 +1,5 @@
 """Sensor platform for LagerSystem."""
+
 import logging
 
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
@@ -77,12 +78,16 @@ class LagerSystemSensor(CoordinatorEntity, SensorEntity):
         for sensor in entries:
             if not isinstance(sensor, dict):
                 continue
-            if sensor.get("entityId") == entity_id or sensor.get("entity_id") == entity_id:
+            if (
+                sensor.get("entityId") == entity_id
+                or sensor.get("entity_id") == entity_id
+            ):
                 return sensor
         return None
 
 
 # ===== EXISTING SENSORS =====
+
 
 class LagerSystemInventoryValueSensor(LagerSystemSensor):
     """Sensor for total inventory value."""
@@ -172,6 +177,7 @@ class LagerSystemExpiryWarningsSensor(LagerSystemSensor):
 
 # ===== NEW SENSORS =====
 
+
 class LagerSystemStorageUtilizationSensor(LagerSystemSensor):
     """Sensor for storage utilization percentage."""
 
@@ -243,6 +249,7 @@ class LagerSystemTopCategoriesSensor(LagerSystemSensor):
 
 
 # ===== ADDITIONAL ENTITY SENSORS (NEW) =====
+
 
 class LagerSystemTotalWarehousesSensor(LagerSystemSensor):
     """Sensor for total warehouses count."""

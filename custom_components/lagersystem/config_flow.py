@@ -1,4 +1,5 @@
 """Config flow for LagerSystem integration."""
+
 import logging
 from typing import Any
 
@@ -61,9 +62,13 @@ class LagerSystemConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             step_id="user",
             data_schema=vol.Schema(
                 {
-                    vol.Required(CONF_HOST, default="https://your-domain.com"): cv.string,
+                    vol.Required(
+                        CONF_HOST, default="https://your-domain.com"
+                    ): cv.string,
                     vol.Required(CONF_API_KEY): cv.string,
-                    vol.Required(CONF_VERIFY_SSL, default=DEFAULT_VERIFY_SSL): cv.boolean,
+                    vol.Required(
+                        CONF_VERIFY_SSL, default=DEFAULT_VERIFY_SSL
+                    ): cv.boolean,
                 }
             ),
             errors=errors,

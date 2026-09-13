@@ -1,4 +1,5 @@
 """Shared fixtures and test-data builders for the LagerSystem test suite."""
+
 from __future__ import annotations
 
 from typing import Any
@@ -41,7 +42,9 @@ def mock_config_entry() -> MockConfigEntry:
     )
 
 
-def make_sensor_entry(entity_id: str, value: Any, attributes: dict | None = None) -> dict:
+def make_sensor_entry(
+    entity_id: str, value: Any, attributes: dict | None = None
+) -> dict:
     """Build one entry of the /api/sensors/all "data" list, as the real API returns it."""
     entry: dict[str, Any] = {"entityId": entity_id, "value": value}
     if attributes is not None:
@@ -75,7 +78,9 @@ async def setup_integration(
         LagerSystemAPI,
         "get_all_sensors",
         AsyncMock(
-            return_value=get_all_sensors if get_all_sensors is not None else make_sensors_payload()
+            return_value=get_all_sensors
+            if get_all_sensors is not None
+            else make_sensors_payload()
         ),
     )
     entry.add_to_hass(hass)

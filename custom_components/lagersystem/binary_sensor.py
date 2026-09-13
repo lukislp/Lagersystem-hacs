@@ -1,4 +1,5 @@
 """Binary sensor platform for LagerSystem."""
+
 import logging
 
 from homeassistant.components.binary_sensor import (
@@ -67,7 +68,10 @@ class LagerSystemBinarySensor(CoordinatorEntity, BinarySensorEntity):
         for sensor in entries:
             if not isinstance(sensor, dict):
                 continue
-            if sensor.get("entityId") == entity_id or sensor.get("entity_id") == entity_id:
+            if (
+                sensor.get("entityId") == entity_id
+                or sensor.get("entity_id") == entity_id
+            ):
                 return sensor
         return None
 
@@ -86,6 +90,7 @@ def _as_number(value, default=0.0):
 
 
 # ===== EXISTING BINARY SENSORS =====
+
 
 class LagerSystemLowStockAlert(LagerSystemBinarySensor):
     """Binary sensor for low stock alert."""
@@ -138,6 +143,7 @@ class LagerSystemExpiryAlert(LagerSystemBinarySensor):
 
 
 # ===== NEW BINARY SENSORS =====
+
 
 class LagerSystemStorageCriticalAlert(LagerSystemBinarySensor):
     """Binary sensor for critical storage utilization (>90%)."""
