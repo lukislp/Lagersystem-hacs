@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/lukislp/Lagersystem-hacs/compare/v1.3.7...v1.4.0) (2026-09-13)
+
+
+### Features
+
+* require Home Assistant 2026.1 or newer ([#22](https://github.com/lukislp/Lagersystem-hacs/issues/22)) ([2ac1f22](https://github.com/lukislp/Lagersystem-hacs/commit/2ac1f22cfca4c25978e4668e809a155c767102aa))
+
 ## [1.3.7](https://github.com/lukislp/Lagersystem-hacs/compare/v1.3.6...v1.3.7) (2026-09-12)
 
 
