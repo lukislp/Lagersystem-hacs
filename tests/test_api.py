@@ -5,6 +5,7 @@ harness (no hass fixture, no pytest_homeassistant_custom_component pieces),
 mirroring the fact that api.py itself has zero HA imports - it's a plain
 aiohttp.ClientSession wrapper, not a DataUpdateCoordinator.
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -122,7 +123,9 @@ async def test_verify_ssl_defaults_true(session: aiohttp.ClientSession) -> None:
     assert calls[0].kwargs["ssl"] is True
 
 
-async def test_verify_ssl_false_is_passed_through(session: aiohttp.ClientSession) -> None:
+async def test_verify_ssl_false_is_passed_through(
+    session: aiohttp.ClientSession,
+) -> None:
     client = LagerSystemAPI(TEST_HOST, TEST_API_KEY, session, verify_ssl=False)
     url = f"{TEST_HOST}/api/sensors/all"
     with aioresponses() as m:
@@ -139,21 +142,27 @@ async def test_verify_ssl_false_is_passed_through(session: aiohttp.ClientSession
 # --------------------------------------------------------------------------
 
 
-async def test_get_raises_client_response_error_on_500(api_client: LagerSystemAPI) -> None:
+async def test_get_raises_client_response_error_on_500(
+    api_client: LagerSystemAPI,
+) -> None:
     with aioresponses() as m:
         m.get(f"{TEST_HOST}/api/sensors/all", status=500)
         with pytest.raises(aiohttp.ClientResponseError):
             await api_client.get_all_sensors()
 
 
-async def test_post_raises_client_response_error_on_500(api_client: LagerSystemAPI) -> None:
+async def test_post_raises_client_response_error_on_500(
+    api_client: LagerSystemAPI,
+) -> None:
     with aioresponses() as m:
         m.post(f"{TEST_HOST}/api/analytics/refresh", status=500)
         with pytest.raises(aiohttp.ClientResponseError):
             await api_client.refresh_analytics()
 
 
-async def test_get_raises_client_response_error_on_401(api_client: LagerSystemAPI) -> None:
+async def test_get_raises_client_response_error_on_401(
+    api_client: LagerSystemAPI,
+) -> None:
     with aioresponses() as m:
         m.get(f"{TEST_HOST}/api/rooms", status=401)
         with pytest.raises(aiohttp.ClientResponseError):

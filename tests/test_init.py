@@ -1,5 +1,6 @@
 """Tests for the LagerSystem integration's setup/unload entry points
 (custom_components/lagersystem/__init__.py)."""
+
 from __future__ import annotations
 
 import aiohttp
@@ -19,13 +20,17 @@ from .conftest import TEST_API_KEY, TEST_HOST, make_sensors_payload, setup_integ
 
 
 async def test_setup_entry_success(
-    hass: HomeAssistant, mock_config_entry: MockConfigEntry, monkeypatch: pytest.MonkeyPatch
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """A successful first refresh loads the entry and stores both the api client
     and the coordinator (with the fetched data) under hass.data[DOMAIN]."""
     payload = make_sensors_payload()
 
-    await setup_integration(hass, monkeypatch, mock_config_entry, get_all_sensors=payload)
+    await setup_integration(
+        hass, monkeypatch, mock_config_entry, get_all_sensors=payload
+    )
 
     assert mock_config_entry.state is ConfigEntryState.LOADED
 
@@ -45,7 +50,9 @@ async def test_setup_entry_success(
 
 
 async def test_setup_entry_first_refresh_failure_retries_setup(
-    hass: HomeAssistant, mock_config_entry: MockConfigEntry, monkeypatch: pytest.MonkeyPatch
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """async_update_data() wraps ANY exception raised by get_all_sensors() (there is
     no separate auth-error branch here, unlike the sibling studylife integration) in
@@ -53,16 +60,16 @@ async def test_setup_entry_first_refresh_failure_retries_setup(
     own ConfigEntries.async_setup catches the resulting ConfigEntryNotReady and
     schedules a retry instead of loading the entry - this is DataUpdateCoordinator's
     standard behavior, verified by actually running it rather than assumed."""
-    monkeypatch.setattr(
-        LagerSystemAPI, "get_all_sensors", _raise_client_error
-    )
+    monkeypatch.setattr(LagerSystemAPI, "get_all_sensors", _raise_client_error)
     mock_config_entry.add_to_hass(hass)
 
     assert not await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()
 
     assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
-    assert DOMAIN not in hass.data or mock_config_entry.entry_id not in hass.data[DOMAIN]
+    assert (
+        DOMAIN not in hass.data or mock_config_entry.entry_id not in hass.data[DOMAIN]
+    )
 
 
 async def _raise_client_error(self, *args, **kwargs):
@@ -76,7 +83,9 @@ async def _raise_client_error(self, *args, **kwargs):
 
 
 async def test_setup_entry_forwards_all_platforms(
-    hass: HomeAssistant, mock_config_entry: MockConfigEntry, monkeypatch: pytest.MonkeyPatch
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """After a successful setup, entities exist for all three platforms declared in
     PLATFORMS - a light touch confirming async_forward_entry_setups actually ran for
@@ -96,7 +105,9 @@ async def test_setup_entry_forwards_all_platforms(
 
 
 async def test_unload_entry(
-    hass: HomeAssistant, mock_config_entry: MockConfigEntry, monkeypatch: pytest.MonkeyPatch
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """Unloading a loaded entry succeeds, flips its state to NOT_LOADED, and pops
     just that entry's key out of hass.data[DOMAIN] - the source only calls

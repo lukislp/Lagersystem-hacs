@@ -23,6 +23,7 @@ Rather than one near-identical test per sensor class, this suite:
 5. Confirms the MONETARY device class on the sensors that declare it.
 6. Confirms device_info identifiers tie back to (DOMAIN, entry.entry_id).
 """
+
 from __future__ import annotations
 
 import pytest
@@ -50,12 +51,18 @@ SENSOR_CASES: dict[str, tuple[str, object]] = {
     "sensor.lagersystem_total_products": ("sensor.inventory_total_products", 250),
     "sensor.lagersystem_low_stock_products": ("sensor.inventory_low_stock_count", 7),
     "sensor.lagersystem_expiring_products": ("sensor.inventory_expiry_warnings", 3),
-    "sensor.lagersystem_storage_utilization": ("sensor.inventory_storage_utilization", 82.5),
+    "sensor.lagersystem_storage_utilization": (
+        "sensor.inventory_storage_utilization",
+        82.5,
+    ),
     "sensor.lagersystem_movements_today": ("sensor.inventory_daily_movements", 15),
     "sensor.lagersystem_top_categories": ("sensor.inventory_top_categories", 5),
     "sensor.lagersystem_total_warehouses": ("sensor.total_warehouses", 4),
     "sensor.lagersystem_total_rooms": ("sensor.total_rooms", 20),
-    "sensor.lagersystem_total_storage_locations": ("sensor.total_storage_locations", 120),
+    "sensor.lagersystem_total_storage_locations": (
+        "sensor.total_storage_locations",
+        120,
+    ),
     "sensor.lagersystem_total_users": ("sensor.total_users", 9),
     "sensor.lagersystem_unread_notifications": ("sensor.unread_notifications", 2),
     "sensor.lagersystem_movements_last_hour": ("sensor.recent_movements", 6),
@@ -83,12 +90,16 @@ def _build_full_payload() -> dict:
 
 
 async def test_all_18_sensor_entities_created(
-    hass: HomeAssistant, mock_config_entry: MockConfigEntry, monkeypatch: pytest.MonkeyPatch
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """async_setup_entry adds exactly the 18 sensors listed in sensor.py's `sensors`
     list, and HA's slugification of each _attr_name produces the entity_ids this
     suite's SENSOR_CASES table assumes - asserted directly instead of guessed."""
-    await setup_integration(hass, monkeypatch, mock_config_entry, get_all_sensors=_build_full_payload())
+    await setup_integration(
+        hass, monkeypatch, mock_config_entry, get_all_sensors=_build_full_payload()
+    )
 
     actual_entity_ids = set(hass.states.async_entity_ids("sensor"))
     assert actual_entity_ids == set(SENSOR_CASES.keys())
@@ -100,16 +111,22 @@ async def test_all_18_sensor_entities_created(
 
 
 async def test_all_sensors_report_expected_values(
-    hass: HomeAssistant, mock_config_entry: MockConfigEntry, monkeypatch: pytest.MonkeyPatch
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """Every sensor's state matches the value keyed to its entityId in the payload,
     covering both the _get_sensor_data() pattern and the direct-iteration pattern."""
-    await setup_integration(hass, monkeypatch, mock_config_entry, get_all_sensors=_build_full_payload())
+    await setup_integration(
+        hass, monkeypatch, mock_config_entry, get_all_sensors=_build_full_payload()
+    )
 
     for entity_id, (_entity_id_key, expected_value) in SENSOR_CASES.items():
         state = hass.states.get(entity_id)
         assert state is not None, f"{entity_id} was not created"
-        assert state.state == str(expected_value), f"{entity_id} reported {state.state!r}"
+        assert state.state == str(expected_value), (
+            f"{entity_id} reported {state.state!r}"
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -118,7 +135,9 @@ async def test_all_sensors_report_expected_values(
 
 
 async def test_all_sensors_fall_back_to_zero_on_empty_data(
-    hass: HomeAssistant, mock_config_entry: MockConfigEntry, monkeypatch: pytest.MonkeyPatch
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """With an empty (but well-formed) {"success": True, "data": []} payload, none of
     the 18 sensors should crash during setup, and each documented-numeric sensor
@@ -126,12 +145,16 @@ async def test_all_sensors_fall_back_to_zero_on_empty_data(
     _get_sensor_data() (returns None -> `sensor.get(...) if sensor else 0`) or the
     direct .get("data", []) loops (loop over an empty list -> falls through to the
     trailing `return 0`)."""
-    await setup_integration(hass, monkeypatch, mock_config_entry, get_all_sensors=make_sensors_payload())
+    await setup_integration(
+        hass, monkeypatch, mock_config_entry, get_all_sensors=make_sensors_payload()
+    )
 
     for entity_id in SENSOR_CASES:
         state = hass.states.get(entity_id)
         assert state is not None, f"{entity_id} was not created"
-        assert state.state == "0", f"{entity_id} reported {state.state!r}, expected fallback 0"
+        assert state.state == "0", (
+            f"{entity_id} reported {state.state!r}, expected fallback 0"
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -140,7 +163,9 @@ async def test_all_sensors_fall_back_to_zero_on_empty_data(
 
 
 async def test_inventory_value_attributes_pass_through(
-    hass: HomeAssistant, mock_config_entry: MockConfigEntry, monkeypatch: pytest.MonkeyPatch
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """LagerSystemInventoryValueSensor.extra_state_attributes is a plain passthrough
     of the sensor entry's "attributes" dict."""
@@ -151,7 +176,9 @@ async def test_inventory_value_attributes_pass_through(
             attributes={"currency": "EUR", "last_updated": "2026-08-05T00:00:00Z"},
         )
     )
-    await setup_integration(hass, monkeypatch, mock_config_entry, get_all_sensors=payload)
+    await setup_integration(
+        hass, monkeypatch, mock_config_entry, get_all_sensors=payload
+    )
 
     state = hass.states.get("sensor.lagersystem_inventory_value")
     assert state.attributes["currency"] == "EUR"
@@ -159,7 +186,9 @@ async def test_inventory_value_attributes_pass_through(
 
 
 async def test_top_categories_formats_category_list(
-    hass: HomeAssistant, mock_config_entry: MockConfigEntry, monkeypatch: pytest.MonkeyPatch
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """LagerSystemTopCategoriesSensor.extra_state_attributes injects a derived
     "category_list" attribute - a comma-joined string built from the "categories"
@@ -171,7 +200,9 @@ async def test_top_categories_formats_category_list(
             attributes={"categories": ["Electronics", "Tools", "Consumables"]},
         )
     )
-    await setup_integration(hass, monkeypatch, mock_config_entry, get_all_sensors=payload)
+    await setup_integration(
+        hass, monkeypatch, mock_config_entry, get_all_sensors=payload
+    )
 
     state = hass.states.get("sensor.lagersystem_top_categories")
     assert state.attributes["categories"] == ["Electronics", "Tools", "Consumables"]
@@ -179,14 +210,22 @@ async def test_top_categories_formats_category_list(
 
 
 async def test_top_categories_no_categories_key_omits_category_list(
-    hass: HomeAssistant, mock_config_entry: MockConfigEntry, monkeypatch: pytest.MonkeyPatch
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """When the "categories" key is absent from attributes, the "if 'categories' in
     attrs" guard means no category_list is synthesized - just the passthrough."""
     payload = make_sensors_payload(
-        make_sensor_entry("sensor.inventory_top_categories", 5, attributes={"note": "no categories here"})
+        make_sensor_entry(
+            "sensor.inventory_top_categories",
+            5,
+            attributes={"note": "no categories here"},
+        )
     )
-    await setup_integration(hass, monkeypatch, mock_config_entry, get_all_sensors=payload)
+    await setup_integration(
+        hass, monkeypatch, mock_config_entry, get_all_sensors=payload
+    )
 
     state = hass.states.get("sensor.lagersystem_top_categories")
     assert state.attributes["note"] == "no categories here"
@@ -199,16 +238,22 @@ async def test_top_categories_no_categories_key_omits_category_list(
 
 
 async def test_monetary_device_class_on_value_sensors(
-    hass: HomeAssistant, mock_config_entry: MockConfigEntry, monkeypatch: pytest.MonkeyPatch
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """LagerSystemInventoryValueSensor and LagerSystemAverageProductValueSensor both
     declare _attr_device_class = SensorDeviceClass.MONETARY."""
-    await setup_integration(hass, monkeypatch, mock_config_entry, get_all_sensors=_build_full_payload())
+    await setup_integration(
+        hass, monkeypatch, mock_config_entry, get_all_sensors=_build_full_payload()
+    )
 
     inventory_value_state = hass.states.get("sensor.lagersystem_inventory_value")
     average_value_state = hass.states.get("sensor.lagersystem_average_product_value")
 
-    assert inventory_value_state.attributes["device_class"] == SensorDeviceClass.MONETARY
+    assert (
+        inventory_value_state.attributes["device_class"] == SensorDeviceClass.MONETARY
+    )
     assert average_value_state.attributes["device_class"] == SensorDeviceClass.MONETARY
 
 
@@ -218,12 +263,16 @@ async def test_monetary_device_class_on_value_sensors(
 
 
 async def test_sensor_device_info_ties_back_to_config_entry(
-    hass: HomeAssistant, mock_config_entry: MockConfigEntry, monkeypatch: pytest.MonkeyPatch
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """Every LagerSystemSensor sets _attr_device_info with
     identifiers={(DOMAIN, entry.entry_id)} - confirmed here via the device registry
     for one representative entity, and via the entity registry's device_id link."""
-    await setup_integration(hass, monkeypatch, mock_config_entry, get_all_sensors=_build_full_payload())
+    await setup_integration(
+        hass, monkeypatch, mock_config_entry, get_all_sensors=_build_full_payload()
+    )
 
     device_registry = dr.async_get(hass)
     device = device_registry.async_get_device_by_identifier(

@@ -1,4 +1,5 @@
 """Tests for the LagerSystem config flow (single user step)."""
+
 from __future__ import annotations
 
 from unittest.mock import patch
@@ -18,7 +19,9 @@ from custom_components.lagersystem.const import (
 
 from .conftest import TEST_API_KEY, TEST_HOST
 
-PATCH_TARGET = "custom_components.lagersystem.config_flow.LagerSystemAPI.test_connection"
+PATCH_TARGET = (
+    "custom_components.lagersystem.config_flow.LagerSystemAPI.test_connection"
+)
 
 
 async def test_user_step_shows_form(hass: HomeAssistant) -> None:
