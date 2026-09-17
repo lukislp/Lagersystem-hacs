@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/lukislp/Lagersystem-hacs/compare/v1.4.0...v1.4.1) (2026-09-17)
+
+
+### Bug Fixes
+
+* **deps:** bump pytest-homeassistant-custom-component ([b3cca5c](https://github.com/lukislp/Lagersystem-hacs/commit/b3cca5c9041ce1a72902e6eff82f0d4d2def696d))
+
 # [1.4.0](https://github.com/lukislp/Lagersystem-hacs/compare/v1.3.7...v1.4.0) (2026-09-13)
 
 
