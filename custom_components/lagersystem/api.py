@@ -69,7 +69,7 @@ class LagerSystemAPI:
         except aiohttp.ClientError as err:
             _LOGGER.error("Error connecting to LagerSystem API: %s", err)
             raise
-        except asyncio.TimeoutError:
+        except TimeoutError:
             _LOGGER.error("Timeout connecting to LagerSystem API")
             raise
 

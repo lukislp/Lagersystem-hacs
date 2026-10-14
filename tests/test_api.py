@@ -181,7 +181,7 @@ async def test_connection_error_propagates(api_client: LagerSystemAPI) -> None:
 
 async def test_timeout_error_propagates(api_client: LagerSystemAPI) -> None:
     with aioresponses() as m:
-        m.get(f"{TEST_HOST}/api/sensors/all", exception=asyncio.TimeoutError())
+        m.get(f"{TEST_HOST}/api/sensors/all", exception=TimeoutError())
         with pytest.raises(asyncio.TimeoutError):
             await api_client.get_all_sensors()
 
