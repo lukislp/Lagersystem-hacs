@@ -6,7 +6,7 @@ from typing import Any
 from unittest.mock import AsyncMock
 
 import pytest
-from pytest_homeassistant_custom_component.common import MockConfigEntry
+from pytest_homeassistant.common import MockConfigEntry
 
 from custom_components.lagersystem.api import LagerSystemAPI
 from custom_components.lagersystem.const import (
@@ -16,16 +16,8 @@ from custom_components.lagersystem.const import (
     DOMAIN,
 )
 
-pytest_plugins = "pytest_homeassistant_custom_component"
-
 TEST_HOST = "https://lager.example.com"
 TEST_API_KEY = "test-api-key"
-
-
-@pytest.fixture(autouse=True)
-def auto_enable_custom_integrations(enable_custom_integrations):
-    """Make custom_components/ discoverable for every test in this suite."""
-    return
 
 
 @pytest.fixture

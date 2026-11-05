@@ -30,7 +30,7 @@ import pytest
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import device_registry as dr
-from pytest_homeassistant_custom_component.common import MockConfigEntry
+from pytest_homeassistant.common import MockConfigEntry
 
 from custom_components.lagersystem.const import DOMAIN
 
