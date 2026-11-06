@@ -18,13 +18,15 @@ action buttons.
 1. Open **HACS** in Home Assistant → **Integrations**
 2. Menu (⋮) → **Custom repositories**
 3. Add this repository URL with category **Integration**
-4. Install **LagerSystem**, then restart Home Assistant
+4. Install **LagerSystem**, then restart Home Assistant (HACS installs the `lagersystem.zip` of the chosen release)
 5. **Settings → Devices & Services → Add Integration → "LagerSystem"**
 
 ### Manual
 
-Copy `custom_components/lagersystem` into your Home Assistant `config/custom_components/`
-directory and restart Home Assistant.
+Unpack `lagersystem.zip` of a [release](https://github.com/lukislp/Lagersystem-hacs/releases) into your Home Assistant
+`config/custom_components/lagersystem/` directory and restart Home Assistant.
+
+Each release ships `lagersystem.zip` with `SHA256SUMS`, Sigstore signatures and build provenance (see [SECURITY.md](SECURITY.md)).
 
 ## Configuration
 
