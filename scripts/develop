@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# SPDX-FileCopyrightText: 2026 Lukas Körber
+# SPDX-License-Identifier: MIT
+
+# Runs a Home Assistant dev instance in the foreground on port 8123 with
+# custom_components/lagersystem loaded from this checkout. State lives in config/ (git-ignored).
+# The first start takes a few minutes: Home Assistant installs missing requirements into config/deps.
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+mkdir -p config
+if [ ! -f config/configuration.yaml ]; then
+  cat > config/configuration.yaml <<'YAML'
+default_config:
+
+logger:
+  default: info
+  logs:
+    custom_components.lagersystem: debug
+YAML
+fi
+
+export PYTHONPATH="${PYTHONPATH:-}:${PWD}/custom_components"
+
+exec hass --config "${PWD}/config" --debug
