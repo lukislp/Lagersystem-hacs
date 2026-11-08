@@ -94,6 +94,20 @@ Edit the `.in` file, then recompile with `pip-tools` under Python 3.14:
 pip-compile --upgrade --allow-unsafe --generate-hashes --no-emit-index-url --strip-extras requirements_test.in
 ```
 
+## Codespaces / Dev Container
+
+`.devcontainer/` gives you a ready environment in GitHub Codespaces or any Dev Container
+host: Python 3.14 (as in CI) with the pinned test and lint requirements installed, so
+`pytest` and `ruff` work at once. `scripts/develop` starts a Home Assistant dev instance
+in the foreground with this integration loaded from the checkout; it is served on the forwarded
+port 8123 (the first start takes a few minutes, onboarding creates a local owner account). The
+instance keeps its state in the git-ignored `config/`.
+
+```bash
+pytest tests/ -v --cov=custom_components/lagersystem --cov-report=json:coverage.json
+scripts/develop
+```
+
 ## Security issues
 
 Please do not open a public issue for a vulnerability - use the private reporting path described
