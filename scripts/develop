@@ -21,6 +21,8 @@ logger:
 YAML
 fi
 
+# pip installs into ~/.local in the dev container image; make hass/ruff reachable.
+export PATH="${PATH}:${HOME}/.local/bin"
 export PYTHONPATH="${PYTHONPATH:-}:${PWD}/custom_components"
 
 exec hass --config "${PWD}/config" --debug
